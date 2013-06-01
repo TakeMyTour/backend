@@ -1,5 +1,4 @@
-<?php
-$INC = "inc";
+<?php require_once('/usr/local/etc/tmt.conf');
 $debug = array();
 //$debug[] = getallheaders();
 $debug[] = "request: " . $_SERVER["REQUEST_URI"];
@@ -28,10 +27,15 @@ $results = array();
 // Tours
 if (in_array('tours',$params)) {
 
-	$results = array( 
-		array('id' => 1, 'name' => 'Test1'), 
-		array('id' => 2, 'name' => 'Test2') 
-	) ;
+	require_once("$INC/list_tours.php");
+	$tours = list_tours();
+	foreach($tours as $tour) {
+		$curr = array();
+		$curr['id'] = $tour['id'];
+		$curr['name'] = $tour['name'];
+		$curr['desc'] = $tour['description'];
+		$results[] = $curr;
+	}
 
 }
 else if (in_array('tour', $params)) {
