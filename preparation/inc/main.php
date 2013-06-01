@@ -55,6 +55,46 @@ if (in_array('tours',$params)) {
 
 }
 else if (in_array('tour', $params)) {
+	require_once("$INC/get_tour.php");
+	$tour = get_tour(null, $params[2]);
+	$results = array();
+	foreach($tour as $t) {
+		$results['id'] = $t['id'];
+		$results['name'] = $t['name'];
+		$results['type'] = $t['type'];
+		$results['desc'] = $t['description'];
+		break;
+	}
+	$results['nodes'] = array();
+	$nodes = get_nodes(null, $params[2]);
+	foreach($nodes as $node) {
+		$curr = array();
+		$curr['id'] = $node['id'];
+		$curr['tour_id'] = $node['tour_id'];
+		$curr['name'] = $node['name'];
+		$curr['desc'] = $node['description'];
+		$curr['address'] = $node['address'];
+		$curr['lon'] = $node['longitude'];
+		$curr['lat'] = $node['latitude'];
+		$curr['images'] = array();
+		$node_images = get_node_images(null, $node['id']);
+		$curr['images'] = array();
+
+		foreach($node_images as $image) {
+			$img = array();
+			$img['id'] = $image['id'];
+			$img['url'] = $image['url'];
+			$img['description'] = $image['description'];
+			$img['address'] = $image['address'];
+			$img['lon'] = $image['longitude'];
+			$img['lat'] = $image['latitude'];
+			$curr['images'][] = $img;
+		}
+	
+		$results['nodes'][] = $curr;
+	}
+
+/*
 	if ($params[2] == 1) {
 		$dummy_tour_desc = file_get_contents("$INC/tour1_desc.html");
 		$results = array( 'id' => 1, 'name' => 'Test1', 'desc' => $dummy_tour_desc, 
@@ -67,6 +107,7 @@ else if (in_array('tour', $params)) {
 	}
 	else
 		$results = array();
+*/
 }
 
 if (in_array('json', $params) || array_key_exists('CONTENT_TYPE', $_SERVER) && $_SERVER['CONTENT_TYPE'] == 'application/json') { 
@@ -91,6 +132,7 @@ print <<<EOD
 <html>
 <head>
 <title>Working Title r1</title>
+<script type="text/javascript" src="/js/xml2json.js"></script>
 <style>
 .spacer { height:200px; }
 </style>

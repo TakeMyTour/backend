@@ -23,9 +23,10 @@ function find_tours($userdb = null, $search = null) {
 		if (array_key_exists('id', $search)) { $where .= "id = " . $search['id']; $sep = ' and '; }
 		if (array_key_exists('name', $search)) { $where .= $sep . "name ilike '%" .  $search['name'] . "%'"; $sep = ' and '; }
 		if (array_key_exists('description', $search)) { $where .= $sep . "description ilike '%" .  $search['description'] . "%'"; $sep = ' and '; }
+		if (array_key_exists('type', $search)) { $where .= $sep . "type ilike '%" .  $search['type'] . "%'"; $sep = ' and '; }
 
 		if ($where != '') $where = 'where ' . $where;
-	        $sql ="select id,name,description from tours " . $where ;
+	        $sql ="select id,name,type from tours " . $where ;
 		$debug[] = "search: " . $sql;
 	        foreach ($db->query($sql) as $row) {
 	                $result[] = $row;

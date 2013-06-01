@@ -1,4 +1,4 @@
-<?php require_once("/usr/local/etc/tmt.conf");
+<?php require_once("/usr/local/tmt/etc/tmt.conf");
 require_once("$INC/list_tours.php");
 $result='';
 $result = list_tours();
