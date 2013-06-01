@@ -11,7 +11,7 @@ function list_tours($userdb = null) {
 	        $result = "Failed to get DB handle: " . $e->getMessage() . "\n";
 	}
 	if ( !is_null($db)) {
-	        $sql ="select id,name,description from tours";
+	        $sql ="select id,name,type from tours";
 	        foreach ($db->query($sql) as $row) {
 	                $result[] = $row;
 	        }

@@ -17,7 +17,13 @@ $search=array();
 foreach ($params as $p) {
   if (substr($p,0,7) == 'search?') {
      $tags = explode(',', substr($p,7));
-     $debug[] .= "search: " . var_export($tags, true);
+     foreach ($tags as $tag) {
+	$kv = explode('=',$tag);
+	if (count($kv) != 2) break; //TBD bad search string
+	$search[ $kv[0] ] = $kv[1];
+     }
+     $debug[] .= "search: " . var_export($search, true);
+
      break;
   }
 }
@@ -27,13 +33,23 @@ $results = array();
 // Tours
 if (in_array('tours',$params)) {
 
-	require_once("$INC/list_tours.php");
-	$tours = list_tours();
+	if ( count($search) == 0 ) 
+	{
+		require_once("$INC/list_tours.php");
+		$tours = list_tours();
+	}
+	else
+	{
+		require_once("$INC/find_tours.php");
+		$tours = find_tours(null, $search);
+	}
+
+
 	foreach($tours as $tour) {
 		$curr = array();
 		$curr['id'] = $tour['id'];
 		$curr['name'] = $tour['name'];
-		$curr['desc'] = $tour['description'];
+		$curr['type'] = $tour['type'];
 		$results[] = $curr;
 	}
 
