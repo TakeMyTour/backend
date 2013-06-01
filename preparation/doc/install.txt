@@ -1,0 +1,13 @@
+TBD
+
+Note that a settings file is required for database configuration.
+
+An example configuration is:
+
+<?php
+$INC="/usr/local/tmt/inc";
+$DBNAME="TakeMyTour";
+$DBUSER="tmt";
+$DBPASS="xxxxxxxxxxxx";
+
+The configuration file is expected to be at: /usr/local/tmt/etc/tmt.conf

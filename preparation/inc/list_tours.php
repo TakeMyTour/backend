@@ -1,4 +1,4 @@
-<?php require_once("/usr/local/etc/tmt.conf");
+<?php require_once("/usr/local/tmt/etc/tmt.conf");
 
 function list_tours($userdb = null) {
 	global $DBNAME, $DBUSER, $DBPASS;
