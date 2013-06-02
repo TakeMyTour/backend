@@ -16,7 +16,7 @@ if (count($params) < 2 || $params[1] == '') {
 $search=array();
 foreach ($params as $p) {
   if (substr($p,0,7) == 'search?') {
-     $tags = explode(',', substr($p,7));
+     $tags = explode('&', substr($p,7));
      foreach ($tags as $tag) {
 	$kv = explode('=',$tag);
 	if (count($kv) != 2) break; //TBD bad search string
@@ -67,7 +67,7 @@ else if (in_array('tour', $params)) {
 	}
 	$results['nodes'] = array();
 	$nodes = get_nodes(null, $params[2]);
-	foreach($nodes as $node) {
+	if ($nodes != false) foreach($nodes as $node) {
 		$curr = array();
 		$curr['id'] = $node['id'];
 		$curr['tour_id'] = $node['tour_id'];
@@ -76,6 +76,8 @@ else if (in_array('tour', $params)) {
 		$curr['address'] = $node['address'];
 		$curr['lon'] = $node['longitude'];
 		$curr['lat'] = $node['latitude'];
+		$curr['hint'] = $node ['hint'];
+		$curr['hint_image'] = $node['url'];
 		$curr['images'] = array();
 		$node_images = get_node_images(null, $node['id']);
 		$curr['images'] = array();
@@ -94,20 +96,18 @@ else if (in_array('tour', $params)) {
 		$results['nodes'][] = $curr;
 	}
 
-/*
-	if ($params[2] == 1) {
-		$dummy_tour_desc = file_get_contents("$INC/tour1_desc.html");
-		$results = array( 'id' => 1, 'name' => 'Test1', 'desc' => $dummy_tour_desc, 
-				'address' => '182 Victoria Square, Adelaide, SA 5000', 'lat' => '34.927', 'lon' => '138.602', 'images' => array());
+}
+else if (in_array('explore',$params)) {
+	require_once("$INC/find_points.php");
+	$points = explore(null, $search);
+	foreach ($points as $point) {
+		$curr = array();
+		$curr['name'] = $point['name'];
+		$curr['address'] = $point['address'];
+		$curr['desc'] = $point['description'];
+		$curr['feature'] = $point['category'];
+		$results[] = $curr;
 	}
-	else if ($params[2] == 2) {
-		$dummy_tour_desc = file_get_contents("$INC/tour2_desc.html");
-		$results = array( 'id' => 2, 'name' => 'Test2', 'desc' => $dummy_tour_desc, 
-				'address' => '184 Victoria Square, Adelaide, SA 5000', 'lat' => '34.928', 'lon' => '138.601', 'images' => array());
-	}
-	else
-		$results = array();
-*/
 }
 
 if (in_array('json', $params) || array_key_exists('CONTENT_TYPE', $_SERVER) && $_SERVER['CONTENT_TYPE'] == 'application/json') { 

@@ -76,13 +76,22 @@ print <<<EOD
 <h1>Make my Tour</h1>
 <h2>Tours</h2>
 $display_my_tours
-<h2>Results</h2>
-$display_results
+<h2>Sources</h2>
+<ul>
+<li><a href="http://data.sa.gov.au/dataset/library-locations">Library Locations</a></li>
+<li><a href="http://data.sa.gov.au/dataset/grave-records">Grave Records</a></li>
+<li><a href="http://data.sa.gov.au/dataset/park-facilities">Park Facilities</a></li>
+<li><a href="http://data.sa.gov.au/dataset/historic-photos-of-adelaide">Historic Photos of Adelaide</a></li>
+<li><a href="http://data.sa.gov.au/dataset/tourist-information-for-port-adelaide-enfield-area">Tourist Information for Port Adelaide Enfield</a></li>
+<li><a href="http://data.sa.gov.au/dataset/south-australian-photographs">South Australian Photographs</a></li>
+</ul>
 <div class="spacer"></div>
+<div style="display:none">
 <h2>Debug</h2>
 <pre>
 $debug_messages
 </pre>
+</div>
 EOD;
 
 //require_once('info.php');

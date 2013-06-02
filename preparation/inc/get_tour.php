@@ -11,7 +11,8 @@ function get_nodes($userdb = null, $tour_id) {
 	        $result = "Failed to get DB handle: " . $e->getMessage() . "\n";
 	}
 	if ( !is_null($db)) {
-	        $sql ="select id,tour_id,name,description,address,longitude,latitude from nodes where tour_id = " . $tour_id;
+	        $sql ="select n.id,tour_id,n.name,n.description,hint,url,n.address,n.longitude,n.latitude from nodes n left join images i on n.hint_image=i.id where tour_id ="
+			. $tour_id;
 	        foreach ($db->query($sql) as $row) {
 	                $result[] = $row;
 	        }
@@ -57,7 +58,7 @@ function get_node_images($userdb = null, $node_id) {
 	        $result = "Failed to get DB handle: " . $e->getMessage() . "\n";
 	}
 	if ( !is_null($db)) {
-	        $sql ="select id,url,description,longitude,latitude from images i, images_nodes n where i.id=n.image_id and n.node_id = " . $node_id;
+	        $sql ="select id,url,description,address,longitude,latitude from images i, images_nodes n where i.id=n.image_id and n.node_id = " . $node_id;
 	        foreach ($db->query($sql) as $row) {
 	                $result[] = $row;
 	        }
